@@ -34,8 +34,10 @@ window.PF = window.PF || {};
   PF.Cam.zoom = Math.min(1.25, Math.max(0.75, window.innerWidth / 1400));
 
   // Wichtige Sprites vorladen
-  const pre = Object.keys(window.SPRITES).filter(k => /^(tiles|biome_tiles|biome_props|machines_adv|belt_tiers|machine_tiers_a|machine_tiers_b|crops|buildings|shop|props|ui|currency|chests|pchests|ingredients|powders_c|cust_a|cust_b|cust_c|cust_d|skins|helpers|potions_b|potions|trees|rocks|construct)\//.test(k));
-  PF.Assets.preload(pre);
+  // In zwei Wellen: erst was man sofort sieht, dann der Rest (Handy lädt sonst ~700 Bilder gleichzeitig)
+  const first = Object.keys(window.SPRITES).filter(k => /^(tiles|biome_tiles|crops|buildings|shop|props|ui|currency|trees|rocks|skins|construct|beds)\//.test(k));
+  const later = Object.keys(window.SPRITES).filter(k => /^(biome_props|machines_adv|belt_tiers|machine_tiers_a|machine_tiers_b|chests|pchests|ingredients|powders_c|cust_a|cust_b|cust_c|cust_d|helpers|potions_b|potions)\//.test(k));
+  PF.Assets.preload(first).then(() => PF.Assets.preload(later));
 
   titleScreen(!!saved);
 

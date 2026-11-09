@@ -662,7 +662,7 @@ body:has(.inspector:not(.hidden)) .inspector { max-height: 52vh; }
   .menu-left { gap: 4px; }
 }
 /* ---------- Handy / schmale Tablets ---------- */
-@media (max-width: 820px) {
+@media (max-width: 820px) and (orientation: portrait) {
   :root { --rail: 52px; --side: min(300px, calc(100vw - 16px)); --bb-h: 104px; }
   .hud-top .lvl { width: 52px; padding: 4px; } .hud-top .xpwrap { display: none; }
   .hud-top .mid-top { left: auto; right: 0; transform: none; border-radius: 0 0 0 16px; max-width: calc(100vw - 70px); overflow-x: auto; scrollbar-width: none; }
@@ -682,10 +682,10 @@ body:has(.inspector:not(.hidden)) .inspector { max-height: 52vh; }
 .bitem img { width: 34px; height: 34px; }
 .bname { font-size: 10.5px; height: 13px; line-height: 13px; }
 :root { --bb-h: 128px; }
-@media (max-width: 820px) { :root { --bb-h: 116px; } }
+@media (max-width: 820px) and (orientation: portrait) { :root { --bb-h: 116px; } }
 .bitems { scrollbar-width: none; overscroll-behavior: contain; }
 .bitems::-webkit-scrollbar { display: none; }
-@media (max-width: 820px) {
+@media (max-width: 820px) and (orientation: portrait) {
   .menu-left { max-height: calc(100vh - 112px - var(--bb-h) - 70px); overflow-y: auto; overflow-x: visible; scrollbar-width: none; }
   .menu-left::-webkit-scrollbar { display: none; }
   .menu-left .quest { position: fixed; left: 68px; top: 112px; }
@@ -696,7 +696,7 @@ body:has(.inspector:not(.hidden)) .inspector { max-height: 52vh; }
   .mapnav button { min-height: 34px; }
 }
 .znum { font-style: normal; opacity: .6; font-size: .85em; }
-@media (max-width: 820px) {
+@media (max-width: 820px) and (orientation: portrait) {
   .hud-top .wave { width: 176px; }
   .rightcol { top: 100px; width: 176px; }
   .menu-left { top: 160px; }
@@ -709,7 +709,7 @@ body:has(.inspector:not(.hidden)) .inspector { max-height: 52vh; }
   .btabs button { font-size: 12px; padding: 0 8px; min-height: 30px; white-space: nowrap; }
 }
 .hud-top .cur span { white-space: nowrap; }
-@media (max-width: 820px) {
+@media (max-width: 820px) and (orientation: portrait) {
   .menu-left { top: 196px; max-height: calc(100vh - 196px - var(--bb-h) - 64px); }
   .ztxt { display: none; }
 }
@@ -745,7 +745,7 @@ body:has(.inspector:not(.hidden)) .inspector { max-height: 52vh; }
 /* =====================================================================
    HANDY QUER (wenig Höhe): alles kompakter, Navigation rechts unten
    ===================================================================== */
-@media (max-height: 520px) {
+@media (max-height: 520px) and (min-height: 501px) {
   :root { --rail: 46px; --side: 200px; --bb-h: 92px; }
   .hud-top .lvl { width: 44px; height: 44px; padding: 2px; border-radius: 50%; }
   .hud-top .xpwrap { display: none; }
@@ -796,7 +796,7 @@ body:has(.inspector:not(.hidden)) .inspector { max-height: 52vh; }
   content: '◆'; color: #e2bd6d; font-size: 11px; line-height: 12px; text-align: center; text-shadow: 0 0 6px rgba(226,189,109,.7);
   background: linear-gradient(90deg, transparent, rgba(226,189,109,.85) 30%, rgba(226,189,109,.85) 44%, transparent 44% 56%, rgba(226,189,109,.85) 56%, rgba(226,189,109,.85) 70%, transparent) center / 100% 1px no-repeat;
 }
-@media (max-height: 520px) {
+@media (max-height: 520px) and (min-height: 501px) {
   .menu-left .quest { width: calc(50vw - 200px); min-width: 120px; max-width: 180px; }
   .mapnav { display: grid; grid-template-columns: 1fr 1fr; flex-direction: unset; }
   .mapnav button { min-width: 0; padding: 0 6px; }
@@ -804,6 +804,168 @@ body:has(.inspector:not(.hidden)) .inspector { max-height: 52vh; }
   .rightcol .orders { max-height: calc(100vh - 52px - 172px - 70px); }
 }
 
-@media (max-height: 520px) { .buildbar { max-width: calc(100vw - 2 * 138px); } }
+@media (max-height: 520px) and (min-height: 501px) { .buildbar { max-width: calc(100vw - 2 * 138px); } }
 
-@media (max-width: 820px) { .buildbar { left: 8px; right: 8px; transform: none; width: auto; max-width: none; } }
+@media (max-width: 820px) and (orientation: portrait) { .buildbar { left: 8px; right: 8px; transform: none; width: auto; max-width: none; } }
+
+/* =====================================================================
+   SAFE AREAS: Notch / Dynamic Island / runde Ecken / Home-Balken.
+   Werte kommen vom Gerät selbst (iPhone & Android), daher kein Geräte-Raten nötig.
+   ===================================================================== */
+:root { --sat: env(safe-area-inset-top, 0px); --sar: env(safe-area-inset-right, 0px); --sab: env(safe-area-inset-bottom, 0px); --sal: env(safe-area-inset-left, 0px); }
+.ztoggle { display: none; }
+
+/* =====================================================================
+   HANDY QUER  (Höhe ≤ 500 px)  – komplett neu, ersetzt die alten Regeln
+   ===================================================================== */
+@media (max-height: 500px) {
+  :root { --rail: 40px; --side: 210px; --bb-h: 84px; --edgeL: calc(var(--sal) + 6px); --edgeR: calc(var(--sar) + 6px); }
+  button { font-size: 12px; padding: 2px 10px; min-height: 28px; border-width: 7px; border-image-width: 7px 10px; }
+
+  /* oben: Level · Aufgabe · Währungen · Welle */
+  .hud-top .lvl { left: var(--edgeL); top: calc(var(--sat) + 5px); width: 38px; height: 38px; padding: 1px; border-radius: 50%; }
+  .hud-top .lvl-badge, .hud-top .lvl-badge img { width: 34px; height: 34px; }
+  .hud-top .lvl-badge span { font-size: 13px; }
+  .hud-top .xpwrap, .hud-top #hudLvl::after { display: none; }
+  .hud-top .mid-top { top: var(--sat); padding: 3px 8px 5px; max-width: calc(100vw - 2 * (var(--edgeL) + 210px)); overflow-x: auto; scrollbar-width: none; }
+  .hud-top .mid-top::-webkit-scrollbar { display: none; }
+  .hud-top .curs { gap: 3px; }
+  .hud-top .cur { height: 24px; font-size: 11.5px; padding: 0 6px 0 2px; gap: 2px; }
+  .hud-top .cur img { width: 17px; height: 17px; }
+  .hud-top .cur.water .wbar, .hud-top .cur[data-info]::after { display: none; }
+  .hud-top .wave { right: var(--edgeR); top: calc(var(--sat) + 5px); width: 150px; height: 38px; padding: 3px 9px; }
+  .hud-top .wave .wave-head { font-size: 11.5px; margin-bottom: 3px; }
+  .hud-top .wave .wave-head img { width: 15px; height: 15px; }
+  .hud-top .wave #bossInfo { font-size: 10.5px; }
+  .hud-top .wave .combo, #hudWave::after { display: none; }
+
+  .menu-left .quest { position: fixed; left: calc(var(--edgeL) + 44px); top: calc(var(--sat) + 5px); width: clamp(110px, 20vw, 180px); max-width: none; min-width: 0; height: 38px; padding: 3px 8px; overflow: hidden; }
+  .menu-left .quest .qhead, .menu-left .quest .qcount { display: none; }
+  .menu-left .quest .qrow { margin: 0 0 3px; gap: 5px; }
+  .menu-left .quest .qrow img { width: 18px; height: 18px; }
+  .menu-left .quest .qrow b { font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .menu-left .quest .qclaim { position: fixed; left: calc(var(--edgeL) + 44px); top: calc(var(--sat) + 46px); width: clamp(110px, 20vw, 180px); font-size: 11px; min-height: 26px; }
+  .menu-left .quest .qdrop { position: fixed; left: calc(var(--edgeL) + 44px); top: calc(var(--sat) + 48px); width: 230px; }
+
+  /* links: Icon-Leiste (scrollt, wenn sie nicht passt) */
+  .menu-left { left: var(--edgeL); top: calc(var(--sat) + 50px); bottom: auto; width: var(--rail); max-height: calc(100vh - var(--sat) - 50px - var(--sab) - 6px); padding: 3px; gap: 3px; border-radius: 10px; overflow-y: auto; overflow-x: visible; }
+  .mbtn { width: 32px; height: 32px; min-height: 32px; border-radius: 7px; }
+  .mbtn img { width: 22px; height: 22px; }
+  .mbtn .dot { right: -4px; top: -4px; min-width: 15px; height: 15px; font-size: 9.5px; }
+
+  /* rechts: Aufträge (eingeklappt nur Kopfzeile) */
+  .rightcol { right: var(--edgeR); top: calc(var(--sat) + 50px); width: 150px; padding: 4px 7px; border-radius: 10px; max-height: calc(100vh - var(--sat) - 50px - var(--sab) - 150px); }
+  .rightcol:not(.collapsed) { width: 230px; }
+  .rightcol .rhead { font-size: 11.5px; padding: 0; gap: 4px; }
+  .rightcol #deliverAll { font-size: 10px; min-height: 22px; padding: 0 6px; border-width: 5px; }
+  .rightcol .orders { max-height: calc(100vh - var(--sat) - 50px - var(--sab) - 210px); }
+  .ocard .oport img { width: 26px; height: 26px; }
+  .oname { font-size: 11.5px; } .otxt { font-size: 10.5px; } .odeliver { font-size: 11px; min-height: 24px; }
+
+  /* unten: Bauleiste als flache Notch, über dem Home-Balken */
+  .buildbar { bottom: 0; padding: 5px 8px calc(var(--sab) + 4px); height: auto; max-width: calc(100vw - 2 * (max(var(--sal), var(--sar)) + 56px)); border-radius: 14px 14px 0 0; }
+  .btabs { margin-bottom: 4px; gap: 3px; }
+  .btabs button { font-size: 11px; min-height: 22px; padding: 0 7px; border-width: 5px; border-image-width: 5px 8px; }
+  .bhint { display: none; }
+  .bitems { gap: 4px; }
+  .bitem { width: 54px; min-width: 54px; height: 50px; border-width: 5px; border-image-width: 5px; padding: 0; justify-content: center; }
+  .bitem img { width: 24px; height: 24px; }
+  .bitem .bname { display: none; }
+  .bitem .bcost { font-size: 9.5px; }
+  .bitem .bcost img { width: 11px !important; height: 11px !important; }
+
+  /* rechts unten: Zoom + Orte (Orte klappen nach links auf) */
+  .mapnav { display: flex; flex-direction: column-reverse; left: auto; right: var(--edgeR); bottom: calc(var(--sab) + 6px); transform: none; padding: 3px; gap: 3px; border-radius: 10px; }
+  .mapnav button { width: 36px; min-width: 0; min-height: 30px; padding: 0; font-size: 13px; border-width: 5px; border-image-width: 5px 8px; }
+  .mapnav button[data-z] { display: none; }
+  .mapnav .ztoggle { display: block; }
+  .mapnav.zopen { flex-direction: row; flex-wrap: wrap; width: 200px; justify-content: flex-end; }
+  .mapnav.zopen button[data-z] { display: block; width: auto; padding: 0 8px; font-size: 11px; }
+  .znum, .ztxt { display: none; }
+
+  /* Inspektor: schmale Karte rechts, über der Bauleiste – Aufträge & Zoom machen solange Platz */
+  .inspector { left: auto; right: var(--edgeR); top: calc(var(--sat) + 50px); bottom: auto; width: 214px; max-height: calc(100vh - var(--sat) - 50px - var(--sab) - var(--bb-h) - 12px); padding: 7px 9px; font-size: 11px; border-radius: 10px; }
+  body:has(.inspector:not(.hidden)) .inspector { max-height: calc(100vh - var(--sat) - 50px - var(--sab) - var(--bb-h) - 12px); }
+  body:has(.inspector:not(.hidden)) .rightcol, body:has(.inspector:not(.hidden)) .mapnav { display: none; }
+  .inspector .desc { display: none; }
+  .inspector .ins-ic { width: 28px; height: 28px; }
+  .inspector .ins-head h3 { font-size: 13px; }
+  .inspector .ins-head .x { min-height: 24px; padding: 0 6px; }
+  .inspector .rar { font-size: 10.5px; }
+  .inspector p { margin: 4px 0; }
+  .ins-up { margin-top: 5px; padding: 5px 7px; }
+  .iu-head { font-size: 11.5px; margin-bottom: 3px; }
+  .iu-tab { font-size: 10.5px; }
+  .iu-foot .up { font-size: 11px; min-height: 24px; }
+  .ins-del { margin-top: 6px; padding-top: 5px; }
+  .ins-del .small { display: none; }
+  .rec, .seed { width: 30px; height: 30px; } .rec img, .seed img { width: 21px; height: 21px; }
+  .inspector .recipes, .inspector .seedrow { max-height: 96px; }
+
+  /* Meldungen in der freien Mitte */
+  .toasts { top: calc(var(--sat) + 40px); max-width: calc(100vw - 2 * (var(--edgeL) + 220px)); }
+  .toast { font-size: 11.5px; padding: 1px 10px; }
+  .toast img { width: 18px; height: 18px; }
+  .banner { top: 30%; } .banner h1 { font-size: 30px; } .banner p { font-size: 13px; }
+
+  /* Dialoge kompakt */
+  .panel { max-height: calc(100vh - var(--sat) - var(--sab) - 12px); width: min(96vw, calc(100vw - var(--sal) - var(--sar) - 12px)); padding: 8px 12px; }
+  .panel h2 { font-size: 18px; margin: 2px 0 6px; } .panel h2 img { width: 26px; height: 26px; }
+  .ptabs button { font-size: 11.5px; min-height: 26px; }
+  .floatbar button { min-height: 26px; font-size: 11px; }
+}
+@media (max-height: 500px) {
+  #hudWave { right: var(--edgeR); }
+  #hudLvl { left: var(--edgeL); }
+}
+/* Safe-Areas auch im Hochformat und am Desktop berücksichtigen */
+#hudLvl { top: calc(var(--sat) + 8px); }
+#hudWave { top: calc(var(--sat) + 8px); }
+.hud-top .mid-top { padding-top: calc(var(--sat) + 6px); }
+.buildbar { padding-bottom: calc(var(--sab) + 6px); }
+@media (max-width: 820px) and (orientation: portrait) {
+  #hudLvl { left: calc(var(--sal) + 8px); }
+  .menu-left { left: calc(var(--sal) + 8px); }
+  #hudWave, .rightcol { right: calc(var(--sar) + 8px); }
+  .hud-top .wave { top: calc(var(--sat) + 52px); }
+  .rightcol { top: calc(var(--sat) + 100px); }
+  .menu-left .quest { top: calc(var(--sat) + 100px); left: calc(var(--sal) + 8px); }
+  .menu-left { top: calc(var(--sat) + 196px); max-height: calc(100vh - var(--sat) - 196px - var(--bb-h) - var(--sab) - 64px); }
+  .mapnav { bottom: calc(var(--bb-h) + var(--sab) + 6px); }
+}
+@media (max-height: 500px) {
+  .mapnav.zopen { flex-direction: column-reverse; flex-wrap: nowrap; width: auto; }
+  .mapnav.zopen button[data-zoom] { display: none; }
+  .mapnav.zopen button[data-z] { width: 78px; }
+}
+@media (max-height: 500px) {
+  .menu-left { scrollbar-width: none; }
+  .menu-left::-webkit-scrollbar { display: none; }
+  .mapnav.zopen button[data-z] { width: 66px; font-size: 10.5px; padding: 0 4px; }
+  .buildbar { max-width: calc(100vw - 2 * (max(var(--sal), var(--sar)) + 62px)); }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  .hud-top .mid-top { padding-top: calc(var(--sat) + 5px); padding-bottom: 6px; }
+  .hud-top .wave { top: calc(var(--sat) + 60px); }
+  .rightcol { top: calc(var(--sat) + 110px); }
+  .menu-left .quest { top: calc(var(--sat) + 110px); }
+  .menu-left { top: calc(var(--sat) + 204px); max-height: calc(100vh - var(--sat) - 204px - var(--bb-h) - var(--sab) - 70px); overflow-y: auto; scrollbar-width: none; }
+  .inspector { left: calc(var(--sal) + 70px); right: calc(var(--sar) + 8px); width: auto; bottom: calc(var(--bb-h) + var(--sab) + 10px); max-height: 46vh; font-size: 12px; }
+  .inspector .desc { display: none; }
+  body:has(.inspector:not(.hidden)) .mapnav { display: none; }
+}
+
+@media (max-width: 820px) and (orientation: portrait) { #hudWave { top: calc(var(--sat) + 60px); } }
+.panel-wrap { padding: var(--sat) var(--sar) var(--sab) var(--sal); box-sizing: border-box; }
+@media (max-height: 500px) {
+  .pgrid { grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 7px; }
+  .pcard { padding: 8px 6px 7px; }
+  .pcard .picon.big img { width: 58px; height: 58px; }
+  .pcard .picon img { width: 42px; height: 42px; }
+  .plines { font-size: 11px; }
+  .pbuy { font-size: 12px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 7px; }
+  .tile { min-height: 150px; padding: 16px 8px 10px; }
+  .tile img { width: 44px; height: 44px; }
+  .panel p.small { font-size: 11px; margin: 4px 0; }
+}

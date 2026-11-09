@@ -11,10 +11,12 @@ PF.Render = {
     window.addEventListener('resize', () => this.resize());
     if (window.ResizeObserver) new ResizeObserver(() => this.resize()).observe(canvas);
     this.resize();
-    PF.Assets.onLoad = (k) => { if (k.startsWith('tiles/')) this.groundDirty = true; };
+    PF.Assets.onLoad = (k) => { if (k.startsWith('tiles/') || k.startsWith('biome_tiles/')) this.groundDirty = true; };
   },
   resize() {
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    // Handys: Auflösung begrenzen (iPhone hat Faktor 3 – das kostet ~4× Rechenzeit, sieht aber kaum besser aus)
+    const touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+    const dpr = Math.min(touch ? 1.5 : 2, window.devicePixelRatio || 1);
     PF.Cam.dpr = dpr;
     // Canvas füllt nur den Kartenbereich (per CSS), Auflösung folgt seiner echten Größe
     const r = this.c.getBoundingClientRect();
@@ -157,7 +159,8 @@ PF.Render = {
   draw(dt) {
     this.t += dt;
     const g = this.g, cam = PF.Cam, T = PF.TILE, s = PF.S, t = this.t;
-    if (this.groundDirty) this.buildGround();
+    // Boden höchstens alle 0,5 s neu aufbauen (beim Laden kamen sonst pro Bild 2.800 Kacheln dazu)
+    if (this.groundDirty && (!this._gT || performance.now() - this._gT > 500)) { this._gT = performance.now(); this.buildGround(); }
     g.setTransform(1, 0, 0, 1, 0, 0);
     g.fillStyle = '#0d0815'; g.fillRect(0, 0, this.c.width, this.c.height);
     const sh = PF.FX.shakeOffset();

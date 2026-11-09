@@ -80,9 +80,11 @@ PF.UI = {
     this.$('menu').querySelectorAll('.mbtn').forEach(b => b.onclick = () => { PF.Audio.sfx('click'); PF.Panels.open(b.dataset.panel); });
   },
   buildZones() {
-    this.$('zones').innerHTML = PF.World.ZONES.map((z, i) => `<button data-z="${z.id}"><i class="znum">${i + 1}</i> ${z.name}</button>`).join('') + '<button data-z="biomes"><i class="znum">4</i> Biome</button><button data-zoom="out" title="Rauszoomen (−)">−</button><button data-zoom="in" title="Reinzoomen (+)">+</button><button data-zoom="all" title="Ganze Welt (0)">⊙<span class="ztxt"> Übersicht</span></button>';
+    this.$('zones').innerHTML = PF.World.ZONES.map((z, i) => `<button data-z="${z.id}"><i class="znum">${i + 1}</i> ${z.name}</button>`).join('') + '<button data-z="biomes"><i class="znum">4</i> Biome</button><button class="ztoggle" id="zToggle" title="Orte">⌖</button><button data-zoom="out" title="Rauszoomen (−)">−</button><button data-zoom="in" title="Reinzoomen (+)">+</button><button data-zoom="all" title="Ganze Welt (0)">⊙<span class="ztxt"> Übersicht</span></button>';
     this.$('zones').querySelectorAll('button').forEach(b => b.onclick = () => {
       PF.Audio.sfx('click');
+      if (b.id === 'zToggle') { this.$('zones').classList.toggle('zopen'); return; }
+      this.$('zones').classList.remove('zopen');
       const zm = b.dataset.zoom;
       if (zm === 'in') return PF.Cam.zoomTo(PF.Cam.zoom * 1.35);
       if (zm === 'out') return PF.Cam.zoomTo(PF.Cam.zoom / 1.35);
