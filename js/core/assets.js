@@ -17,7 +17,12 @@ PF.Assets = {
       e = this.cache[key] = { img, ok: false, w: def[1], h: def[2] };
       this.pending++;
       img.onload = () => { e.ok = true; this.loaded++; this.pending--; PF.Assets.onLoad && PF.Assets.onLoad(key); };
-      img.onerror = () => { this.pending--; console.warn('Ladefehler', key); };
+      // Mobilnetz / CDN-Aussetzer: bis zu 3 Wiederholversuche, dann aufgeben
+      let tries = 0;
+      img.onerror = () => {
+        if (tries++ < 3) { setTimeout(() => { img.src = def[0] + (def[0].includes('?') ? '&' : '?') + 'r=' + tries; }, 600 * tries); return; }
+        this.pending--; console.warn('Ladefehler', key);
+      };
       img.src = def[0];
     }
     return e.ok ? e.img : null;
