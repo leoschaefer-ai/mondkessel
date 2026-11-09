@@ -969,3 +969,69 @@ body:has(.inspector:not(.hidden)) .inspector { max-height: 52vh; }
   .tile img { width: 44px; height: 44px; }
   .panel p.small { font-size: 11px; margin: 4px 0; }
 }
+
+/* =====================================================================
+   HANDY QUER: Overlays (Truhe, Lotterie-Band, Level-Up, Bestätigen)
+   ===================================================================== */
+.overlay { padding: var(--sat) var(--sar) var(--sab) var(--sal); box-sizing: border-box; }
+@media (max-height: 500px) {
+  /* schwebende Mini-Leiste am Objekt entfällt – der Inspektor hat dieselben Knöpfe */
+  .floatbar#selFloat { display: none !important; }
+  .overlay { overflow-y: auto; place-items: start center; }
+  .chestfx { width: min(96vw, calc(100vw - var(--sal) - var(--sar) - 16px)); padding: 8px 0 10px; }
+  .chestfx h2 { font-size: 18px; margin: 2px 0; }
+  .chestimg img { width: 110px; }
+  .chestfx .beam { height: 170px; top: -10px; }
+  .chestfx.open .beam { width: 140px; }
+  #chestHint { margin: 2px 0; }
+  .cards { gap: 6px; margin: 4px 0; }
+  .card { width: 92px; height: 132px; padding: 4px 3px; }
+  .card img { width: 38px; height: 38px; }
+  .card .cname { font-size: 10.5px; line-height: 1.15; }
+  .card .csub, .card .crar { font-size: 9.5px; }
+  .cbtns { margin-top: 4px; }
+  .cbtns .big { font-size: 13px; padding: 2px 16px; min-height: 30px; border-width: 9px; border-image-width: 9px 14px; }
+  .reel-window { width: 150px; height: 216px; }
+  .reel-item { height: 72px; }
+  .reel-item img { width: 96px; height: 66px; }
+  .upgrade-txt { font-size: 15px; min-height: 20px; }
+  .lvlup { min-width: 0; width: min(92vw, 520px); padding: 8px 16px 12px; }
+  .lvlup h1 { font-size: 30px; }
+  .lvlup .crown { width: 54px; height: 54px; }
+  .lvlup p, .lvlup .rewards { font-size: 12px; }
+  .lvlup .rewards img { width: 22px; height: 22px; }
+  .panel.confirm { width: min(92vw, 420px); }
+  .panel.confirm h2 { font-size: 16px; }
+  .panel.confirm .ctext { font-size: 12px; margin: 4px 0 8px; }
+  .panel.confirm .big { font-size: 13px; padding: 2px 16px; min-height: 30px; border-width: 9px; border-image-width: 9px 14px; }
+  .tut-box, .tutorial, .tut { max-width: min(78vw, 420px) !important; font-size: 12px !important; }
+}
+@media (max-height: 500px) {
+  .tut-box { width: min(78vw, 400px) !important; padding: 4px 8px; gap: 8px; }
+  .tut-box img { width: 54px !important; height: auto !important; }
+  .tut-box h3 { font-size: 14px; margin: 0 0 2px; }
+  .tut-box p { font-size: 11.5px; margin: 0 0 4px; }
+  .tut-box button { font-size: 11.5px; min-height: 26px; }
+  /* Inventar-Regal passt in die Höhe */
+  .panel.inv .shelf { width: auto; max-width: 100%; height: calc(100vh - var(--sat) - var(--sab) - 120px); margin: 4px auto 0; }
+}
+@media (max-height: 500px) {
+  .card { width: 104px; }
+  .card .cname { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: break-word; word-break: normal; font-size: 10.5px; }
+  .card .crar { font-size: 9px; letter-spacing: -.2px; white-space: nowrap; }
+}
+
+@media (max-height: 500px) { .reel-marker { top: 72px; height: 72px; } .reel-marker::before, .reel-marker::after { top: 24px; font-size: 16px; } }
+@media (max-height: 500px) {
+  .overlay:has(.lvlup) { place-items: center; }
+  .lvlup { max-height: calc(100vh - var(--sat) - var(--sab) - 16px); overflow-y: auto; scrollbar-width: none; }
+  .lvlup h3 { font-size: 13px; margin: 4px 0; }
+  .unlocks { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); width: 100%; gap: 3px 10px; margin: 0 0 6px; }
+  .unlocks div { gap: 5px; font-size: 11px; text-align: left; }
+  .unlocks img { width: 20px; height: 20px; }
+  .lvlup .big { font-size: 13px; padding: 2px 16px; min-height: 30px; border-width: 9px; border-image-width: 9px 14px; }
+}
+@media (max-height: 500px) {
+  .panel, .panel.wide, .panel.inv, .panel.treasury { width: min(96vw, calc(100vw - var(--sal) - var(--sar) - 12px)); max-width: none; }
+  .panel.inv .shelf { height: calc(100vh - var(--sat) - var(--sab) - 150px); }
+}

@@ -41,6 +41,7 @@ PF.UI = {
       <div class="buildbar frame thin" id="buildbar"></div>
       <div class="mapnav" id="zones"></div>
       <div class="tip hidden" id="tip"></div>
+      <div id="safeProbe" style="position:fixed;inset:0;visibility:hidden;pointer-events:none;z-index:-1;padding:var(--sat) var(--sar) var(--sab) var(--sal)"></div>
       <div class="floatbar hidden" id="buildFloat"></div>
       <div class="floatbar hidden" id="selFloat"></div>
       <div class="toasts" id="toasts"></div>
@@ -453,6 +454,12 @@ PF.UI = {
     this.$('teaser').innerHTML = nx ? `Nächstes Ziel: ${ic(nx.icon)} <b>${nx.t}</b> bei Level ${nx.l}` : '';
     if (this.selected && this.selected.type !== 'belt' && (this.selected.build || Math.random() < 0.15)) this.refreshInspectorLight();
   },
+  // Safe-Areas (Notch, Dynamic Island, Home-Balken) in Pixeln – env() ist per JS nicht direkt lesbar
+  safe() {
+    const p = this.$ && this.$('safeProbe'); if (!p) return { l: 0, r: 0, t: 0, b: 0 };
+    const c = getComputedStyle(p);
+    return { l: parseFloat(c.paddingLeft) || 0, r: parseFloat(c.paddingRight) || 0, t: parseFloat(c.paddingTop) || 0, b: parseFloat(c.paddingBottom) || 0 };
+  },
   // Schwebende Info am Mauszeiger (z. B. Werkzeuge im Laden)
   tip(html, ev) {
     const t = this.$('tip');
@@ -593,7 +600,8 @@ PF.UI = {
     const base = s.inv.chests[index];
     if (base === undefined) return;
     const result = (base === 4 || base === 9) ? base : this.rollUpgrade(base);
-    const N = 46, LAND = 40, H = 120;
+    const N = 46, LAND = 40;
+    let H = 120;
     const strip = this.reelStrip(base, result, N, LAND);
     const o = this.overlay(`
       <div class="chestfx">
@@ -602,6 +610,7 @@ PF.UI = {
         <div class="upgrade-txt" id="upTxt"></div>
       </div>`, 'show chest');
     const el = o.querySelector('#reelStrip');
+    H = (el.children[0] && el.children[0].getBoundingClientRect().height) || 120; // echte Höhe (Handy: kleiner)
     const target = -(LAND * H - H);
     el.style.transform = 'translateY(0px)';
     void el.offsetWidth;

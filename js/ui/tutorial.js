@@ -115,15 +115,19 @@ PF.Tutorial = {
       Object.assign(this.spot.style, { left: '50%', top: '50%', width: '0px', height: '0px' });
     }
     // Box neben das Ziel setzen (unter, sonst über, sonst Mitte)
-    const bw = 450, bh = this.box.offsetHeight || 150, W = window.innerWidth, H = window.innerHeight;
+    // echte Box-Größe und Safe-Areas (Notch, Home-Balken) berücksichtigen
+    const sa = PF.UI.safe();
+    const L = 10 + sa.l, Rr = 10 + sa.r, T = 10 + sa.t, B = 10 + sa.b;
+    const bw = this.box.offsetWidth || 450, bh = this.box.offsetHeight || 150, W = window.innerWidth, H = window.innerHeight;
     let x, y;
     if (!r) { x = (W - bw) / 2; y = H * 0.32; }
     else {
-      x = PF.U.clamp(r.x + r.w / 2 - bw / 2, 10, W - bw - 10);
+      x = r.x + r.w / 2 - bw / 2;
       y = r.y + r.h + pad + 14;
-      if (y + bh > H - 10) y = r.y - pad - 14 - bh;
-      if (y < 10) { y = PF.U.clamp(r.y + r.h / 2 - bh / 2, 10, H - bh - 10); x = r.x + r.w + 20 + bw < W ? r.x + r.w + 20 : Math.max(10, r.x - bw - 20); }
+      if (y + bh > H - B) y = r.y - pad - 14 - bh;
+      if (y < T) { y = r.y + r.h / 2 - bh / 2; x = r.x + r.w + 20 + bw < W - Rr ? r.x + r.w + 20 : r.x - bw - 20; }
     }
+    x = PF.U.clamp(x, L, Math.max(L, W - bw - Rr)); y = PF.U.clamp(y, T, Math.max(T, H - bh - B));
     this.box.style.left = x + 'px'; this.box.style.top = y + 'px';
   },
 };
